@@ -1,0 +1,17 @@
+{
+    "name": "maillens",
+    "version": "1.0.0",
+    "description": "AI-powered email productivity tool for Gmail and Outlook",
+    "scripts": {
+      "build:gmail": "tsc -p apps/gmail/tsconfig.json",
+      "build:outlook": "tsc -p apps/outlook/tsconfig.json",
+      "watch:gmail": "tsc -p apps/gmail/tsconfig.json --watch",
+      "watch:outlook": "tsc -p apps/outlook/tsconfig.json --watch"
+    },
+    "devDependencies": {
+      "typescript": "^5.4.5",
+      "@types/chrome": "^0.0.253",
+      "@types/office-js": "^1.0.0"
+    }
+  }
+  
