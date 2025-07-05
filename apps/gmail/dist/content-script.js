@@ -1,5 +1,5 @@
 "use strict";
-(function () {
+(() => {
     const waitForGmail = setInterval(() => {
         const inbox = document.querySelector('div[role="main"]');
         if (inbox) {
@@ -7,8 +7,7 @@
             injectMailLensUI();
         }
     }, 1000);
-    function injectMailLensUI() {
-        var _a;
+    const injectMailLensUI = () => {
         const container = document.createElement("div");
         container.id = "maillens-ui";
         container.style.position = "fixed";
@@ -23,11 +22,31 @@
         container.style.fontFamily = "Arial, sans-serif";
         container.innerHTML = `
         <strong>MailLens</strong><br/>
+        <input type="text" id="maillens-keywords" placeholder="Enter keywords" style="margin-top:8px;width:100%;padding:4px"/>
         <button id="maillens-scan" style="margin-top:8px;">Scan Inbox</button>
       `;
         document.body.appendChild(container);
-        (_a = document.getElementById("maillens-scan")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-            chrome.runtime.sendMessage({ action: "scan_inbox" });
+        document.getElementById("maillens-scan")?.addEventListener("click", () => {
+            const rawKeywords = document.getElementById("maillens-keywords")
+                ?.value || "";
+            const keywords = rawKeywords
+                .split(",")
+                .map((k) => k.trim())
+                .filter((k) => k.length > 0);
+            console.log("📤 Sending scan_inbox request with:", keywords);
+            chrome.runtime.sendMessage({ action: "scan_inbox", keywords }, (response) => {
+                console.log("📥 Got response from background:", response);
+                if (chrome.runtime.lastError) {
+                    alert("❌ Extension error: " + chrome.runtime.lastError.message);
+                    return;
+                }
+                if (response?.success) {
+                    alert(`✅ Scan complete!\nScanned: ${response.scanned} emails\nMatched: ${response.labeledCount}`);
+                }
+                else {
+                    alert("❌ Error: " + (response?.error || "Unknown error"));
+                }
+            });
         });
-    }
+    };
 })();

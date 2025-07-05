@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "../gmail/dist",
     "rootDir": "src",
-    "outDir": "dist",
-    "types": ["chrome"]
+    "types": ["chrome"],
+    "target": "esnext",
+    "module": "esnext",
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
