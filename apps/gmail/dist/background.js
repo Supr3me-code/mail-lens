@@ -23,7 +23,9 @@ async function handleScanInbox(keywords) {
         throw new Error("Could not retrieve access token.");
     }
     const emails = await fetchEmailsForSummary(accessToken); // Gmail API
-    const labeledCount = await labelEmailsByKeywords(emails, keywords, accessToken); // Stub
+    const labeledCount = await labelEmailsByKeywords(emails, keywords, 
+    // add label name also
+    accessToken);
     return {
         success: true,
         labeledCount,
