@@ -2,7 +2,7 @@ export async function fetchEmailsForSummary(accessToken: string) {
   const baseUrl = "https://gmail.googleapis.com/gmail/v1/users/me";
 
   const listRes = await fetch(
-    `${baseUrl}/messages?q=category:primary in:inbox&maxResults=10`,
+    `${baseUrl}/messages?q=category:primary in:inbox&maxResults=50`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

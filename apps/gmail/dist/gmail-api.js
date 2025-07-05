@@ -1,14 +1,12 @@
 export async function fetchEmailsForSummary(accessToken) {
     const baseUrl = "https://gmail.googleapis.com/gmail/v1/users/me";
-    // Step 1: Get list of message IDs (only the latest 10 for now)
-    const listRes = await fetch(`${baseUrl}/messages?q=category:primary in:inbox&maxResults=10`, {
+    const listRes = await fetch(`${baseUrl}/messages?q=category:primary in:inbox&maxResults=50`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     });
     const listData = await listRes.json();
     const messages = listData.messages || [];
-    // Step 2: Fetch full metadata for each message
     const detailedEmails = await Promise.all(messages.map(async (msg) => {
         const msgRes = await fetch(`${baseUrl}/messages/${msg.id}`, {
             headers: {
@@ -31,7 +29,6 @@ function getHeader(headers, name) {
 }
 async function getOrCreateMailLensLabel(accessToken) {
     const baseUrl = "https://gmail.googleapis.com/gmail/v1/users/me";
-    // Get existing labels
     const res = await fetch(`${baseUrl}/labels`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -41,7 +38,6 @@ async function getOrCreateMailLensLabel(accessToken) {
     const existing = data.labels.find((label) => label.name === "MailLens/Filtered");
     if (existing)
         return existing.id;
-    // Create new label
     const createRes = await fetch(`${baseUrl}/labels`, {
         method: "POST",
         headers: {
@@ -64,7 +60,6 @@ export async function labelEmailsByKeywords(emails, keywords, accessToken) {
     for (const email of emails) {
         const subject = email.subject.toLowerCase();
         const snippet = email.snippet.toLowerCase();
-        console.log("subject -> ", subject);
         const matched = keywords.some((kw) => subject.includes(kw.toLowerCase()));
         if (matched) {
             console.log("📌 Matched Email:", email.subject);
