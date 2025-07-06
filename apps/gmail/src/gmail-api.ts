@@ -41,7 +41,10 @@ function getHeader(headers: any[], name: string): string {
   return header ? header.value : "";
 }
 
-async function getOrCreateMailLensLabel(accessToken: string): Promise<string> {
+async function getOrCreateMailLensLabel(
+  accessToken: string,
+  labelName: string
+): Promise<string> {
   const baseUrl = "https://gmail.googleapis.com/gmail/v1/users/me";
 
   const res = await fetch(`${baseUrl}/labels`, {
@@ -51,9 +54,7 @@ async function getOrCreateMailLensLabel(accessToken: string): Promise<string> {
   });
 
   const data = await res.json();
-  const existing = data.labels.find(
-    (label: any) => label.name === "MailLens/Filtered"
-  );
+  const existing = data.labels.find((label: any) => label.name === labelName);
 
   if (existing) return existing.id;
 
@@ -64,7 +65,7 @@ async function getOrCreateMailLensLabel(accessToken: string): Promise<string> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      name: "MailLens/Filtered",
+      name: labelName,
       labelListVisibility: "labelShow",
       messageListVisibility: "show",
     }),
@@ -76,23 +77,28 @@ async function getOrCreateMailLensLabel(accessToken: string): Promise<string> {
 
 export async function labelEmailsByKeywords(
   emails: Array<{ id: string; subject: string; from: string; snippet: string }>,
-  keywords: string[],
+  subjectKeywords: string[],
+  names: string[],
+  labelName: string,
   accessToken: string
 ): Promise<number> {
   let count = 0;
   const baseUrl = "https://gmail.googleapis.com/gmail/v1/users/me";
-  const labelId = await getOrCreateMailLensLabel(accessToken);
+  const labelId = await getOrCreateMailLensLabel(accessToken, labelName);
 
   for (const email of emails) {
     const subject = email.subject?.toLowerCase();
     const from = email.from?.toLowerCase() || "";
-    const matched = keywords.some(
-      (kw) =>
-        subject.includes(kw?.toLowerCase()) || from.includes(kw?.toLowerCase())
+    const matchedSubject = subjectKeywords.some((kw) =>
+      subject.includes(kw?.toLowerCase())
+    );
+    const matchedFrom = names.some((name) =>
+      from.includes(name?.toLowerCase())
     );
 
-    if (matched) {
-      console.log("📌 Matched Email:", email.subject);
+    if (matchedSubject || matchedFrom) {
+      matchedFrom && console.log("📌 Matched Sender:", email.from);
+      matchedSubject && console.log("📌 Matched Email:", email.subject);
       await fetch(`${baseUrl}/messages/${email.id}/modify`, {
         method: "POST",
         headers: {

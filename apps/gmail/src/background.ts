@@ -3,9 +3,17 @@ import { fetchEmailsForSummary, labelEmailsByKeywords } from "./gmail-api.js";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "scan_inbox") {
-    console.log("Received scan_inbox message with keywords:", message.keywords);
+    console.log(
+      "Received scan_inbox message with keywords:",
+      message.subjectKeywords,
+      message.names
+    );
 
-    handleScanInbox(message.keywords ?? [])
+    handleScanInbox(
+      message.subjectKeywords ?? [],
+      message.names ?? [],
+      message.labelName
+    )
       .then((result) => {
         sendResponse(result);
         console.log("Scan inbox result:", result);
@@ -18,7 +26,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-async function handleScanInbox(keywords: string[]) {
+async function handleScanInbox(
+  subjectKeywords: string[],
+  names: string[],
+  labelName: string
+) {
   const accessToken = await getAccessToken();
   if (!accessToken) {
     throw new Error("Could not retrieve access token.");
@@ -27,8 +39,9 @@ async function handleScanInbox(keywords: string[]) {
   const emails = await fetchEmailsForSummary(accessToken);
   const labeledCount = await labelEmailsByKeywords(
     emails,
-    keywords,
-    // add label name also
+    subjectKeywords,
+    names,
+    labelName,
     accessToken
   );
 
@@ -36,6 +49,8 @@ async function handleScanInbox(keywords: string[]) {
     success: true,
     labeledCount,
     scanned: emails.length,
-    matchedKeywords: keywords,
+    matchedKeywords: subjectKeywords,
+    matchedNames: names,
+    labelName,
   };
 }
