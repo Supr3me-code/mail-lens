@@ -13,6 +13,3 @@
 
 - 🧠 **Inbox Brief (Daily Summary)**  (v2)
   A one-click AI digest that summarizes all your emails for the day. Focus only on what matters.
-
-- 🔄 **Cross-Platform**  
-  Works with both **Gmail** and **Outlook**. One interface, two ecosystems.
