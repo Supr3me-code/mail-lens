@@ -12,7 +12,7 @@ esbuild
     target: "esnext",
     format: "iife",
     absWorkingDir: path.resolve(__dirname, "..", ".."),
-    plugins: [cssModulesPlugin({ inject: true }), svgrPlugin({ inject: true })],
+    plugins: [cssModulesPlugin({ inject: true })],
     metafile: true,
   })
   .catch(() => process.exit(1));
