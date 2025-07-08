@@ -6,8 +6,8 @@
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 20px;
+  border-radius: 10%;
+  width: 70px;
   height: 20px;
   font-size: 10px;
   cursor: pointer;
@@ -15,6 +15,12 @@
 }
 
 .toggleButtonLabel {
+  position: relative;
+  bottom: 60px;
+  right: 7px;
+}
+
+.toggleButtonIcon {
   position: relative;
   bottom: 9px;
   right: 7px;

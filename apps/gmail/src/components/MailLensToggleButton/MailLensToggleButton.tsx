@@ -21,6 +21,9 @@ export const MailLensToggleButton: React.FC<Props> = ({
       }
     >
       <span className={styles.toggleButtonLabel}>
+        {isPanelVisible ? "Close" : "Mail Lens"}
+      </span>
+      <span className={styles.toggleButtonIcon}>
         {isPanelVisible ? <CloseIcon /> : <MailLensIcon />}
       </span>
     </button>

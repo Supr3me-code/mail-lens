@@ -5,6 +5,7 @@ export const MailLensPanel = () => {
   const [names, setNames] = useState("");
   const [subjectKeywords, setSubjectKeywords] = useState("");
   const [labelName, setLabelName] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
 
   const handleScan = () => {
     const nameList = names
@@ -15,7 +16,11 @@ export const MailLensPanel = () => {
       .split(",")
       .map((s) => s.trim())
       .filter((s) => s);
-
+    const scanButton = document.querySelector(
+      "button[type='submit']"
+    ) as HTMLButtonElement;
+    scanButton.disabled = true;
+    setIsScanning(true);
     chrome.runtime.sendMessage(
       {
         action: "scan_inbox",
@@ -30,6 +35,8 @@ export const MailLensPanel = () => {
         }
 
         if (response?.success) {
+          scanButton.disabled = false;
+          setIsScanning(false);
           alert(
             `✅ Scan complete!\nScanned: ${response.scanned} emails\nMatched: ${
               response.labeledCount
@@ -40,6 +47,8 @@ export const MailLensPanel = () => {
             )}\nSubjects: ${response.matchedKeywords.join(", ")}`
           );
         } else {
+          scanButton.disabled = false;
+          setIsScanning(false);
           alert("❌ Error: " + (response?.error || "Unknown error"));
         }
       }
@@ -92,7 +101,9 @@ export const MailLensPanel = () => {
             />
           </div>
 
-          <button type="submit">Scan Inbox</button>
+          <button type="submit">
+            {isScanning ? "Scanning..." : "Scan Inbox"}
+          </button>
         </fieldset>
       </form>
     </section>
