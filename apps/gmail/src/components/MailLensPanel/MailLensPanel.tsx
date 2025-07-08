@@ -88,12 +88,7 @@ export const MailLensPanel = () => {
               type="text"
               placeholder="Label to apply to matching emails"
               value={labelName}
-              onChange={(e) =>
-                setLabelName(
-                  e.target.value ||
-                    `MailLens - ${names[0] || subjectKeywords[0] || "default"}`
-                )
-              }
+              onChange={(e) => setLabelName(e.target.value)}
             />
           </div>
 
