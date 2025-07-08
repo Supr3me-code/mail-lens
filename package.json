@@ -1,17 +1,24 @@
 {
-    "name": "maillens",
-    "version": "1.0.0",
-    "description": "AI-powered email productivity tool for Gmail and Outlook",
-    "scripts": {
-      "build:gmail": "tsc -p apps/gmail/tsconfig.json",
-      "build:outlook": "tsc -p apps/outlook/tsconfig.json",
-      "watch:gmail": "tsc -p apps/gmail/tsconfig.json --watch",
-      "watch:outlook": "tsc -p apps/outlook/tsconfig.json --watch"
-    },
-    "devDependencies": {
-      "typescript": "^5.4.5",
-      "@types/chrome": "^0.0.253",
-      "@types/office-js": "^1.0.0"
-    }
+  "name": "maillens",
+  "version": "1.0.0",
+  "description": "AI-powered email productivity tool for Gmail and Outlook",
+  "scripts": {
+    "build:gmail": "tsc -p apps/gmail/tsconfig.json && node apps/gmail/build-content.js",
+    "build:outlook": "tsc -p apps/outlook/tsconfig.json",
+    "watch:gmail": "tsc -p apps/gmail/tsconfig.json --watch",
+    "watch:outlook": "tsc -p apps/outlook/tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.253",
+    "@types/office-js": "^1.0.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "esbuild": "^0.25.5",
+    "esbuild-css-modules-plugin": "^3.1.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
-  
+}

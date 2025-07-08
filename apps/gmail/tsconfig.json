@@ -1,12 +1,15 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "lib": ["DOM", "ESNext"],
     "outDir": "../gmail/dist",
     "rootDir": "src",
-    "types": ["chrome"],
-    "target": "esnext",
-    "module": "esnext",
+    "types": ["chrome", "react", "react-dom"],
+    "target": "ESNext",
+    "module": "ESNext"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "types.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
