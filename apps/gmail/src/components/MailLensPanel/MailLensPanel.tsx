@@ -16,10 +16,24 @@ export const MailLensPanel = () => {
       .split(",")
       .map((s) => s.trim())
       .filter((s) => s);
+
     const scanButton = document.querySelector(
       "button[type='submit']"
     ) as HTMLButtonElement;
+    const namesInput = document.getElementById(
+      "namesInput"
+    ) as HTMLInputElement;
+    const subjectInput = document.getElementById(
+      "subjectInput"
+    ) as HTMLInputElement;
+    const labelInput = document.getElementById(
+      "labelInput"
+    ) as HTMLInputElement;
+
     scanButton.disabled = true;
+    namesInput.disabled = true;
+    subjectInput.disabled = true;
+    labelInput.disabled = true;
     setIsScanning(true);
     chrome.runtime.sendMessage(
       {
@@ -36,6 +50,12 @@ export const MailLensPanel = () => {
 
         if (response?.success) {
           scanButton.disabled = false;
+          namesInput.disabled = false;
+          subjectInput.disabled = false;
+          labelInput.disabled = false;
+          setNames("");
+          setSubjectKeywords("");
+          setLabelName("");
           setIsScanning(false);
           alert(
             `✅ Scan complete!\nScanned: ${response.scanned} emails\nMatched: ${
@@ -48,6 +68,12 @@ export const MailLensPanel = () => {
           );
         } else {
           scanButton.disabled = false;
+          namesInput.disabled = false;
+          subjectInput.disabled = false;
+          labelInput.disabled = false;
+          setNames("");
+          setSubjectKeywords("");
+          setLabelName("");
           setIsScanning(false);
           alert("❌ Error: " + (response?.error || "Unknown error"));
         }
