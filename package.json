@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "AI-powered email productivity tool for Gmail and Outlook",
   "scripts": {
-    "build:gmail": "tsc -p apps/gmail/tsconfig.json && node apps/gmail/build-content.js",
+    "build:gmail": "tsc -p apps/gmail/tsconfig.json && node apps/gmail/build-content.js && cpx \"apps/gmail/manifest.json\" apps/gmail/dist && cpx \"apps/gmail/public/icons/**/*\" apps/gmail/dist/icons",
     "build:outlook": "tsc -p apps/outlook/tsconfig.json",
     "watch:gmail": "tsc -p apps/gmail/tsconfig.json --watch",
     "watch:outlook": "tsc -p apps/outlook/tsconfig.json --watch"
@@ -13,6 +13,7 @@
     "@types/office-js": "^1.0.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "cpx": "^1.5.0",
     "esbuild": "^0.25.5",
     "esbuild-css-modules-plugin": "^3.1.5",
     "typescript": "^5.4.5"
