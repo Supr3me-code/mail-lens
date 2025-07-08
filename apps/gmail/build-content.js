@@ -1,5 +1,6 @@
 const esbuild = require("esbuild");
 const cssModulesPlugin = require("esbuild-css-modules-plugin");
+const svgrPlugin = require("esbuild-plugin-svgr");
 const path = require("path");
 
 esbuild
@@ -11,7 +12,7 @@ esbuild
     target: "esnext",
     format: "iife",
     absWorkingDir: path.resolve(__dirname, "..", ".."),
-    plugins: [cssModulesPlugin({ inject: true })], // <-- this is critical
+    plugins: [cssModulesPlugin({ inject: true }), svgrPlugin({ inject: true })],
     metafile: true,
   })
   .catch(() => process.exit(1));

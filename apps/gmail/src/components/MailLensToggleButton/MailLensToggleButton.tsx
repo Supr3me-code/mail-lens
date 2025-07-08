@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./MailLensToggleButton.module.css";
+import MailLensIcon from "../../assets/MailLensIcon.svg";
+import CloseIcon from "../../assets/CloseIcon.svg";
 
 type Props = {
   onClick: () => void;
@@ -18,7 +20,9 @@ export const MailLensToggleButton: React.FC<Props> = ({
         isPanelVisible ? "Hide MailLens Panel" : "Show MailLens Panel"
       }
     >
-      {isPanelVisible ? "✕" : "📬"}
+      <span className={styles.toggleButtonLabel}>
+        {isPanelVisible ? <CloseIcon /> : <MailLensIcon />}
+      </span>
     </button>
   );
 };
