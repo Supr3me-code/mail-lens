@@ -3,7 +3,7 @@
   "name": "MailLens – Gmail Enhancer",
   "version": "1.0",
   "description": "Filter, clean, and summarize your inbox using AI.",
-  "permissions": ["scripting", "storage", "identity", "identity.email"],
+  "permissions": ["identity", "identity.email"],
   "host_permissions": [
     "https://mail.google.com/*",
     "https://www.googleapis.com/*"
